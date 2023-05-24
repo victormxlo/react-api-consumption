@@ -6,7 +6,7 @@ export default reducers => {
     {
       key: 'REACT-API-CONSUMPTION',
       storage,
-      whitelist: ['example'],
+      whitelist: ['auth'],
     },
     reducers
   );

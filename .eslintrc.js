@@ -32,5 +32,6 @@ module.exports = {
     "no-unused-vars": 0,
     "import/no-named-as-default": 0,
     "default-param-last": 0,
+    "func-names": 0,
   },
 };
