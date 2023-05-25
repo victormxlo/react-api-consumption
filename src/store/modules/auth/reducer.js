@@ -9,10 +9,18 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case types.LOGIN_REQUEST: {
-      // eslint-disable-next-line
-      console.log('Reducer', action.payload);
-      return state;
+    case types.LOGIN_SUCCESS: {
+      const newState = { ...initialState };
+      newState.isLoggedIn = true;
+      newState.token = action.token;
+      newState.user = action.user;
+
+      return newState;
+    }
+
+    case types.LOGIN_FAILURE: {
+      const newState = { ...initialState };
+      return newState;
     }
 
     default: {
