@@ -11,11 +11,14 @@ import Loading from '../../components/Loading';
 
 export default function Clients() {
   const [clients, setClients] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getData() {
+      setIsLoading(true);
       const response = await axios.get('/clients');
       setClients(response.data);
+      setIsLoading(false);
     }
 
     getData();
@@ -23,7 +26,7 @@ export default function Clients() {
 
   return (
     <Container>
-      <Loading isLoading />
+      <Loading isLoading={isLoading} />
 
       <h1>Clients</h1>
 
