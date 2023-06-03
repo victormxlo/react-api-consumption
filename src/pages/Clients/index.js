@@ -7,6 +7,8 @@ import { Container } from '../../styles/GlobalStyles';
 import { ClientContainer, ProfilePicture } from './styled';
 import axios from '../../services/axios';
 
+import Loading from '../../components/Loading';
+
 export default function Clients() {
   const [clients, setClients] = useState([]);
 
@@ -21,6 +23,8 @@ export default function Clients() {
 
   return (
     <Container>
+      <Loading isLoading />
+
       <h1>Clients</h1>
 
       <ClientContainer>
