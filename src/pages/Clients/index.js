@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { get } from 'lodash';
-import { FaUserCircle, FaEdit, FaWindowClose } from 'react-icons/fa';
+import { FaUserCircle, FaEdit, FaWindowClose, FaExclamation } from 'react-icons/fa';
 
+import { toast } from 'react-toastify';
 import { Container } from '../../styles/GlobalStyles';
 import { ClientContainer, ProfilePicture } from './styled';
 import axios from '../../services/axios';
@@ -24,6 +25,38 @@ export default function Clients() {
     getData();
   }, [])
 
+  const handleDeleteAsk = e => {
+    e.preventDefault();
+    const exclamation = e.currentTarget.nextSibling;
+    exclamation.setAttribute('display', 'block');
+    e.currentTarget.remove();
+  }
+
+  const handleDelete = async (e, id, index) => {
+    e.persist();
+    try {
+      setIsLoading(true);
+      await axios.delete(`/clients/${id}`);
+      const newClients = [...clients];
+      newClients.splice(index, 1);
+      setClients(newClients);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      const status = get(err, 'response.status', 0);
+      if (status === 401) {
+        toast.error('You need to login', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      } else {
+        toast.error('An error occurred while deleting the client', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      }
+      setIsLoading(false);
+    }
+  }
+
   return (
     <Container>
       <Loading isLoading={isLoading} />
@@ -31,7 +64,7 @@ export default function Clients() {
       <h1>Clients</h1>
 
       <ClientContainer>
-        {clients.map(client => (
+        {clients.map((client, index) => (
           <div key={String(client.id)}>
             <ProfilePicture>
               {get(client, 'Photos.url', false) ? (
@@ -48,9 +81,15 @@ export default function Clients() {
               <FaEdit size={16}/>
             </Link>
 
-            <Link to={`/client/${client.id}/delete`}>
+            <Link onClick={handleDeleteAsk} to={`/client/${client.id}/delete`}>
               <FaWindowClose size={16}/>
             </Link>
+
+            <FaExclamation onClick={e => handleDelete(e, client.id, index)}
+              size={16}
+              display="none"
+              cursor="pointer"
+            />
           </div>
         ))}
       </ClientContainer>
