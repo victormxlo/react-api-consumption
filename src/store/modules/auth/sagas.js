@@ -35,7 +35,61 @@ function persistRehydrate({ payload }) {
   axios.defaults.headers.Authorization = `Bearer ${token}`;
 }
 
+// eslint-disable-next-line
+function* registerRequest({ payload }) {
+  const { id, name, email, password } = payload;
+
+  try {
+    if (id) {
+      yield call(axios.put, '/users', {
+        email,
+        name,
+        password: password || undefined,
+      });
+      toast.success('Account updated successfully.', {
+        position: toast.POSITION.TOP_RIGHT
+      });
+      yield put(actions.registerUpdatedSuccess({ name, email, password }));
+    } else {
+      yield call(axios.post, '/users', {
+        email,
+        name,
+        password,
+      });
+      toast.success('Account created successfully.', {
+        position: toast.POSITION.TOP_RIGHT
+      });
+      yield put(actions.registerCreatedSuccess({ name, email, password }));
+      history.push('/login');
+    }
+  } catch (e) {
+    const errors = get(e, 'response.data.errors', []);
+    const status = get(e, 'response.data.status', 0);
+
+    if (status === 401) {
+      toast.error('You need to login again', {
+        position: toast.POSITION.TOP_RIGHT
+      });
+      yield put(actions.loginFailure());
+      return history.push('/login');
+    }
+
+    if (errors.length > 0) {
+      errors.map(error => toast.error(error, {
+        position: toast.POSITION.TOP_RIGHT
+      }));
+    } else {
+      toast.error('Unknown error', {
+        position: toast.POSITION.TOP_RIGHT
+      });
+    }
+
+    yield put(actions.registerFailure());
+  }
+}
+
 export default all([
   takeLatest(types.LOGIN_REQUEST, loginRequest),
   takeLatest(types.PERSIST_REHYDRATE, persistRehydrate),
+  takeLatest(types.REGISTER_REQUEST, registerRequest),
 ]);
