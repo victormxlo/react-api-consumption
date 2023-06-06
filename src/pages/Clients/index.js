@@ -5,7 +5,7 @@ import { FaUserCircle, FaEdit, FaWindowClose, FaExclamation } from 'react-icons/
 
 import { toast } from 'react-toastify';
 import { Container } from '../../styles/GlobalStyles';
-import { ClientContainer, ProfilePicture } from './styled';
+import { ClientContainer, ProfilePicture, NewClient } from './styled';
 import axios from '../../services/axios';
 
 import Loading from '../../components/Loading';
@@ -62,6 +62,8 @@ export default function Clients() {
       <Loading isLoading={isLoading} />
 
       <h1>Clients</h1>
+
+      <NewClient to="/client/">New client</NewClient>
 
       <ClientContainer>
         {clients.map((client, index) => (
