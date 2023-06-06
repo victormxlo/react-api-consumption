@@ -5,23 +5,26 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import history from 'history';
 import { useDispatch } from 'react-redux';
+import { FaUserCircle, FaEdit } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import axios from '../../services/axios';
 import * as actions from '../../store/modules/auth/actions';
 
 import { Container } from '../../styles/GlobalStyles';
-import { Form } from './styled';
+import { Form, ProfilePicture, Title } from './styled';
 import Loading from '../../components/Loading';
 
 export default function Client({ match }) {
   const dispatch = useDispatch();
 
-  const id = get(match, 'params.id', 0);
+  const id = get(match, 'params.id', '');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
+  const {photo, setPhoto} = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -32,6 +35,8 @@ export default function Client({ match }) {
         setIsLoading(true);
         const { data } = axios.get(`/clients/${id}`);
         const Photo = get(data, 'Photos[0].url', '');
+
+        setPhoto(Photo);
 
         setFirstName(data.firstName);
         setLastName(data.lastName);
@@ -149,7 +154,21 @@ export default function Client({ match }) {
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>{id ? 'Edit client' : 'New client'}</h1>
+
+      <Title>{id ? 'Edit client' : 'New client'}</Title>
+
+      {id && (
+        <ProfilePicture>
+          {photo ? (
+            <img src={photo} alt={firstName} />
+          ) : (
+            <FaUserCircle size={180}/>
+          )}
+          <Link to={`/photos/${id}`}>
+            <FaEdit size={24} />
+          </Link>
+        </ProfilePicture>
+      )}
 
       <Form onSubmit={handleSubmit}>
         <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First name"/>
