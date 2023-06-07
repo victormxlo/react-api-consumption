@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle, FaEdit } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import history from '../../services/history';
 import axios from '../../services/axios';
 import * as actions from '../../store/modules/auth/actions';
 
@@ -14,7 +13,7 @@ import { Container } from '../../styles/GlobalStyles';
 import { Form, ProfilePicture, Title } from './styled';
 import Loading from '../../components/Loading';
 
-export default function Client({ match }) {
+export default function Client({ match, history }) {
   const dispatch = useDispatch();
 
   const id = get(match, 'params.id', '');
@@ -24,7 +23,7 @@ export default function Client({ match }) {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
-  const {photo, setPhoto} = useState('');
+  const [photo, setPhoto] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -57,7 +56,7 @@ export default function Client({ match }) {
     };
 
     getData();
-  }, [id, setPhoto]);
+  }, [id, history]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -186,4 +185,5 @@ export default function Client({ match }) {
 
 Client.propTypes = {
   match: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape([]).isRequired,
 }

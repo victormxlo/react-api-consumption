@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { isEmail } from 'validator';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { Container } from '../../styles/GlobalStyles';
 import { Form } from './styled';
 import Loading from '../../components/Loading';
 import * as actions from '../../store/modules/auth/actions';
 
-export default function Register() {
+export default function Register(props) {
   const dispatch = useDispatch();
 
-  const id = useSelector(state => state.auth.user.id);
-  const storedName = useSelector(state => state.auth.user.name);
-  const storedEmail = useSelector(state => state.auth.user.email);
-  const isLoading = useSelector(state => state.auth.isLoading);
+  const id = useSelector((state) => state.auth.user.id);
+  const storedName = useSelector((state) => state.auth.user.name);
+  const storedEmail = useSelector((state) => state.auth.user.email);
+  const isLoading = useSelector((state) => state.auth.isLoading);
+  const { history } = props;
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -54,7 +56,7 @@ export default function Register() {
 
     if (formErrors) return;
 
-    dispatch(actions.registerRequest({ name, email, password, id }));
+    dispatch(actions.registerRequest({ name, email, password, id, history }));
   }
 
   return (
@@ -85,3 +87,7 @@ export default function Register() {
     </Container>
   );
 }
+
+Register.propTypes = {
+  history: PropTypes.shape({}).isRequired,
+};
