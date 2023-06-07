@@ -3,10 +3,10 @@ import { get } from 'lodash';
 import { isEmail, isFloat, isInt } from 'validator';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import history from 'history';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle, FaEdit } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import history from '../../services/history';
 import axios from '../../services/axios';
 import * as actions from '../../store/modules/auth/actions';
 
@@ -57,7 +57,7 @@ export default function Client({ match }) {
     };
 
     getData();
-  }, [id]);
+  }, [id, setPhoto]);
 
   const handleSubmit = async e => {
     e.preventDefault();
