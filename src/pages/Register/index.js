@@ -36,21 +36,21 @@ export default function Register(props) {
     if (name.length < 3 || name.length > 255) {
       formErrors = true;
       toast.error('The name must be between 1 and 255 characters long.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
 
     if (!isEmail(email)) {
       formErrors = true;
       toast.error('Invalid e-mail.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
 
     if (!id && (password.length < 6 || password.length > 50)) {
       formErrors = true;
       toast.error('The password must be between 6 and 50 characters long.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
 
@@ -68,22 +68,27 @@ export default function Register(props) {
       <Form onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="name">
           Name:
-          <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Your name"/>
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
         </label>
 
         <label htmlFor="email">
           E-mail:
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Your email"/>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email" />
         </label>
 
         <label htmlFor="password">
           Password:
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Your password"/>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Your password"
+          />
         </label>
 
         <button type="submit">{id ? 'Save changes' : 'Create account'}</button>
       </Form>
-      <ToastContainer autoClose={3000}/>
+      <ToastContainer autoClose={3000} />
     </Container>
   );
 }

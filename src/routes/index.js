@@ -12,14 +12,14 @@ import Register from '../pages/Register';
 
 export default function Routes() {
   return (
-      <Switch>
-        <MyRoute exact path="/" component={Clients} isClosed={false} />
-        <MyRoute exact path="/client/:id/edit" component={Client} isClosed />
-        <MyRoute exact path="/client/" component={Client} isClosed />
-        <MyRoute exact path="/photos/:id" component={Photos} isClosed />
-        <MyRoute exact path="/login/" component={Login} isClosed={false} />
-        <MyRoute exact path="/register/" component={Register} isClosed={false} />
-        <MyRoute path="*" component={Error} />
-      </Switch>
+    <Switch>
+      <MyRoute exact path="/" component={Clients} isClosed={false} />
+      <MyRoute exact path="/client/:id/edit" component={Client} isClosed />
+      <MyRoute exact path="/client/" component={Client} isClosed />
+      <MyRoute exact path="/photos/:id" component={Photos} isClosed />
+      <MyRoute exact path="/login/" component={Login} isClosed={false} />
+      <MyRoute exact path="/register/" component={Register} isClosed={false} />
+      <MyRoute path="*" component={Error} />
+    </Switch>
   );
 }

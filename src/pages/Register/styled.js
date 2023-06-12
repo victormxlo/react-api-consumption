@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import * as colors from '../../config/colors';
 
 export const Form = styled.form`

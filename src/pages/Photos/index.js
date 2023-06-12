@@ -30,12 +30,12 @@ export default function Photos({ match, history }) {
         setIsLoading(false);
         history.push('/');
       }
-    }
+    };
 
     getData();
   }, [id, history]);
 
-  const handleChange = async e => {
+  const handleChange = async (e) => {
     const photoFile = e.target.files[0];
     const photoURL = URL.createObjectURL(photoFile);
 
@@ -67,7 +67,7 @@ export default function Photos({ match, history }) {
         dispatch(actions.loginFailure());
       }
     }
-  }
+  };
 
   return (
     <Container>
@@ -78,7 +78,7 @@ export default function Photos({ match, history }) {
       <Form>
         <label htmlFor="photo">
           {photo ? <img src={photo} alt="" /> : 'Select'}
-          <input type="file" id="photo" onChange={handleChange}/>
+          <input type="file" id="photo" onChange={handleChange} />
         </label>
       </Form>
     </Container>
@@ -88,4 +88,4 @@ export default function Photos({ match, history }) {
 Photos.propTypes = {
   match: PropTypes.shape({}).isRequired,
   history: PropTypes.shape([]).isRequired,
-}
+};

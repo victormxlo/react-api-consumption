@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { isEmail } from 'validator';
 import { useDispatch, useSelector } from 'react-redux';
 import { get } from 'lodash';
@@ -29,14 +29,14 @@ export default function Login(props) {
     if (!isEmail(email)) {
       formErrors = true;
       toast.error('Invalid e-mail.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
 
     if (password.length < 6 || password.length > 50) {
       formErrors = true;
       toast.error('Invalid password.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
 
@@ -52,12 +52,16 @@ export default function Login(props) {
       <h1>Login</h1>
 
       <Form onSubmit={(e) => handleSubmit(e)}>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Your email" />
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Your password" />
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email" />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Your password"
+        />
 
         <button type="submit">Log-In</button>
       </Form>
-
     </Container>
   );
 }

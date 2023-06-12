@@ -23,17 +23,18 @@ export default function Clients() {
     }
 
     getData();
-  }, [])
+  }, []);
 
-  const handleDeleteAsk = e => {
+  const handleDeleteAsk = (e) => {
     e.preventDefault();
     const exclamation = e.currentTarget.nextSibling;
     exclamation.setAttribute('display', 'block');
     e.currentTarget.remove();
-  }
+  };
 
   const handleDelete = async (e, id, index) => {
     e.persist();
+
     try {
       setIsLoading(true);
       await axios.delete(`/clients/${id}`);
@@ -46,16 +47,16 @@ export default function Clients() {
       const status = get(err, 'response.status', 0);
       if (status === 401) {
         toast.error('You need to login', {
-          position: toast.POSITION.TOP_RIGHT
+          position: toast.POSITION.TOP_RIGHT,
         });
       } else {
         toast.error('An error occurred while deleting the client', {
-          position: toast.POSITION.TOP_RIGHT
+          position: toast.POSITION.TOP_RIGHT,
         });
       }
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Container>
@@ -69,8 +70,8 @@ export default function Clients() {
         {clients.map((client, index) => (
           <div key={String(client.id)}>
             <ProfilePicture>
-              {get(client, 'Photos.url', false) ? (
-                <img src={client.Photos.url} alt="" />
+              {get(client, 'Photos[0].url', false) ? (
+                <img src={client.Photos[0].url} alt="" />
               ) : (
                 <FaUserCircle size={36} />
               )}
@@ -80,14 +81,15 @@ export default function Clients() {
             <span>{client.email}</span>
 
             <Link to={`/client/${client.id}/edit`}>
-              <FaEdit size={16}/>
+              <FaEdit size={16} />
             </Link>
 
             <Link onClick={handleDeleteAsk} to={`/client/${client.id}/delete`}>
-              <FaWindowClose size={16}/>
+              <FaWindowClose size={16} />
             </Link>
 
-            <FaExclamation onClick={e => handleDelete(e, client.id, index)}
+            <FaExclamation
+              onClick={(e) => handleDelete(e, client.id, index)}
               size={16}
               display="none"
               cursor="pointer"

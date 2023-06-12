@@ -11,7 +11,7 @@ function* loginRequest({ payload }) {
     yield put(actions.loginSuccess({ ...response.data }));
 
     toast.success('You are now logged in.', {
-      position: toast.POSITION.TOP_RIGHT
+      position: toast.POSITION.TOP_RIGHT,
     });
 
     axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
@@ -21,10 +21,10 @@ function* loginRequest({ payload }) {
     // eslint-disable-next-line
     console.log(payload.location);
     toast.error('User or password is invalid.', {
-      position: toast.POSITION.TOP_RIGHT
+      position: toast.POSITION.TOP_RIGHT,
     });
 
-    yield put(actions.loginFailure);
+    yield put(actions.loginFailure());
   }
 }
 
@@ -48,7 +48,7 @@ function* registerRequest({ payload }) {
         password: password || undefined,
       });
       toast.success('Account updated successfully.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
       yield put(actions.registerUpdatedSuccess({ name, email, password }));
     } else {
@@ -58,30 +58,32 @@ function* registerRequest({ payload }) {
         password,
       });
       toast.success('Account created successfully.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
       yield put(actions.registerCreatedSuccess({ name, email, password }));
       history.push('/login');
     }
   } catch (e) {
     const errors = get(e, 'response.data.errors', []);
-    const status = get(e, 'response.data.status', 0);
+    const status = get(e, 'response.status', 0);
 
     if (status === 401) {
-      toast.error('You need to login again', {
-        position: toast.POSITION.TOP_RIGHT
+      toast.error('You need to login again.', {
+        position: toast.POSITION.TOP_RIGHT,
       });
       yield put(actions.loginFailure());
       return history.push('/login');
     }
 
     if (errors.length > 0) {
-      errors.map(error => toast.error(error, {
-        position: toast.POSITION.TOP_RIGHT
-      }));
+      errors.map((error) =>
+        toast.error(error, {
+          position: toast.POSITION.TOP_RIGHT,
+        }),
+      );
     } else {
-      toast.error('Unknown error', {
-        position: toast.POSITION.TOP_RIGHT
+      toast.error('Unknown error.', {
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
 

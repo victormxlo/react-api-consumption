@@ -37,8 +37,8 @@ export default function Client({ match, history }) {
 
         setPhoto(Photo);
 
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
+        setFirstName(data.first_name);
+        setLastName(data.last_name);
         setEmail(data.email);
         setAge(data.age);
         setWeight(data.weight);
@@ -50,56 +50,56 @@ export default function Client({ match, history }) {
         const status = get(err, 'response.status', 0);
         const errors = get(err, 'response.data.errors', []);
 
-        if (status === 400) errors.map(error => toast.error(error, { position: toast.POSITION.TOP_RIGHT }));
+        if (status === 400) errors.map((error) => toast.error(error, { position: toast.POSITION.TOP_RIGHT }));
         history.push('/');
       }
-    };
+    }
 
     getData();
   }, [id, history]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let formErrors = false;
 
-    if (firstName.length < 3 || firstName.length >= 255) {
-      toast.error('The first name must be between 1 and 255 characters long.', {
-        position: toast.POSITION.TOP_RIGHT
+    if (firstName.length < 3 || firstName.length > 255) {
+      toast.error('The first name must be between 3 and 255 characters long.', {
+        position: toast.POSITION.TOP_RIGHT,
       });
       formErrors = true;
     }
 
-    if (lastName.length < 3 || lastName.length >= 255) {
-      toast.error('The last name must be between 1 and 255 characters long.', {
-        position: toast.POSITION.TOP_RIGHT
+    if (lastName.length < 3 || lastName.length > 255) {
+      toast.error('The last name must be between 3 and 255 characters long.', {
+        position: toast.POSITION.TOP_RIGHT,
       });
       formErrors = true;
     }
 
     if (!isEmail(email)) {
       toast.error('Invalid e-mail.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
       formErrors = true;
     }
 
     if (!isInt(String(age))) {
       toast.error('Invalid age.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
       formErrors = true;
     }
 
     if (!isFloat(String(weight))) {
       toast.error('Invalid weight.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
       formErrors = true;
     }
 
     if (!isFloat(String(height))) {
       toast.error('Invalid height.', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
       });
       formErrors = true;
     }
@@ -139,7 +139,7 @@ export default function Client({ match, history }) {
       const errors = get(data, 'errors', []);
 
       if (errors.length > 0) {
-        errors.map(error => toast.error(error, { position: toast.POSITION.TOP_RIGHT }));
+        errors.map((error) => toast.error(error, { position: toast.POSITION.TOP_RIGHT }));
       } else {
         toast.error('Unknown error', { position: toast.POSITION.TOP_RIGHT });
       }
@@ -148,7 +148,7 @@ export default function Client({ match, history }) {
         dispatch(actions.loginFailure());
       }
     }
-  }
+  };
 
   return (
     <Container>
@@ -158,11 +158,7 @@ export default function Client({ match, history }) {
 
       {id && (
         <ProfilePicture>
-          {photo ? (
-            <img src={photo} alt={firstName} />
-          ) : (
-            <FaUserCircle size={180}/>
-          )}
+          {photo ? <img src={photo} alt={firstName} /> : <FaUserCircle size={180} />}
           <Link to={`/photos/${id}`}>
             <FaEdit size={24} />
           </Link>
@@ -170,12 +166,12 @@ export default function Client({ match, history }) {
       )}
 
       <Form onSubmit={handleSubmit}>
-        <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First name"/>
-        <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Last name"/>
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail"/>
-        <input type="number" value={age} onChange={e => setAge(e.target.value)} placeholder="Age"/>
-        <input type="text" value={weight} onChange={e => setWeight(e.target.value)} placeholder="Weight"/>
-        <input type="text" value={height} onChange={e => setHeight(e.target.value)} placeholder="Height"/>
+        <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First name" />
+        <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last name" />
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail" />
+        <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Age" />
+        <input type="text" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="Weight" />
+        <input type="text" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="Height" />
 
         <button type="submit">Send</button>
       </Form>
@@ -186,4 +182,4 @@ export default function Client({ match, history }) {
 Client.propTypes = {
   match: PropTypes.shape({}).isRequired,
   history: PropTypes.shape([]).isRequired,
-}
+};
